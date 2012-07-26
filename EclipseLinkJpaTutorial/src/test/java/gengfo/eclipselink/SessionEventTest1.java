@@ -9,20 +9,39 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import org.eclipse.persistence.jpa.JpaEntityManager;
 import org.eclipse.persistence.sessions.Session;
-import org.eclipse.persistence.sessions.server.ServerSession;
+import org.eclipse.persistence.sessions.SessionEvent;
+import org.eclipse.persistence.sessions.SessionEventAdapter;
 
-import junit.framework.TestCase;
-
-public class TodoTest extends TestCase {
+public class SessionEventTest1 {
+	
 
 	public static final String PERSISTENCE_UNIT_NAME = "todos";
 	private static EntityManagerFactory factory;
+	
+	public static void main(String args[]){
 
-	public void testTodo() {
 
 		factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 		EntityManager em = factory.createEntityManager();
+
+		Session mySession = ((JpaEntityManager) em.getDelegate()).getSession();
+		
+		SessionEventAdapter myEventListener = new SessionEventAdapter() {
+		     // Listen for PostCommitUnitOfWork events
+		     public void postCommitUnitOfWork(SessionEvent event) {
+		         // Call the handler routine
+		         System.out.println("postCommitUnitOfWork");
+		     }
+		     
+		     public void preLogin(SessionEvent event) {
+		         // Call the handler routine
+		         System.out.println("preLogin");
+		     }
+		 };
+		 
+		 mySession.getEventManager().addListener(myEventListener);
 
 		// Read the existing entries and write to console
 		Query q = em.createQuery("select t from Todo t");
