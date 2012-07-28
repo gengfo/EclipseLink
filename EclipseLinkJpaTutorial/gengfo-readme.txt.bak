@@ -20,8 +20,7 @@ CREATE TABLE FIRSTTABLE
 INSERT INTO FIRSTTABLE VALUES 
     (10,'TEN'),(20,'TWENTY'),(30,'THIRTY');
 2.3 run DerbyTest sql 
-run 'C:\GengFo\GitHub\EclipseLink\EclipseLinkJpaTutorial\sqls\Init-Schema.sql';
-
+run 'C:\GengFo\GitHub\EclipseLink\EclipseLinkJpaTutorial\sqls\Init-Schema.sql'
 CREATE TABLE Todo
     (
     ID  BIGINT  NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1) PRIMARY KEY,
